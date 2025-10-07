@@ -11,7 +11,7 @@ import warnings
 
 import paramiko
 from paramiko import SSHException, AuthenticationException   # make available
-from paramiko import AgentKey, RSAKey, DSSKey
+from paramiko import AgentKey, RSAKey
 from paramiko.hostkeys import HostKeys
 
 from pysftp.exceptions import (CredentialException, ConnectionException,
@@ -159,10 +159,8 @@ class Connection(object):   # pylint:disable=r0902,r0904
                 try:  # try rsa
                     self._tconnect['pkey'] = RSAKey.from_private_key_file(
                         private_key_file, private_key_pass)
-                except paramiko.SSHException:   # if it fails, try dss
-                    # pylint:disable=r0204
-                    self._tconnect['pkey'] = DSSKey.from_private_key_file(
-                        private_key_file, private_key_pass)
+                except paramiko.SSHException:   # if it fails, raise error
+                    raise CredentialException("Failed to load private key from %s." % private_key_file)    
 
     def _start_transport(self, host, port):
         '''start the transport and set the ciphers if specified.'''
@@ -448,7 +446,6 @@ class Connection(object):   # pylint:disable=r0902,r0904
 
     def putfo(self, flo, remotepath=None, file_size=0, callback=None,
               confirm=True):
-
         """Copies the contents of a file like object to remotepath.
 
         :param flo: a file-like object that supports .read()
