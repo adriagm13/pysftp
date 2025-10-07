@@ -1,5 +1,6 @@
 TO SEE ORIGINAL REPOSITORY PLEASE VISIT: https://bitbucket.org/dundeemt/pysftp
 THIS REPOSITORY IS A FORK TO AVOID CONFLICT WITH PARAMIKO LIBRARY
+PROBABLY YOU WANT sftpretty TO FULL UPDATE THE LIBRARY: https://github.com/byteskeptical/sftpretty
 
 pysftp
 ======
